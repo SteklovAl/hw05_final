@@ -35,7 +35,6 @@ class PostsURLTests(TestCase):
         self.authorized_client.force_login(self.user)
         cache.clear()
 
-
     def test_home_url_exists_at_desired_location(self):
         """Страница / доступна любому пользователю."""
         cache.clear()
