@@ -71,6 +71,7 @@ class PostsURLTests(TestCase):
     def test_pages_show_correct_context(self):
         """Шаблоны index, profile, group_list"""
         """сформированы с правильным контекстом."""
+        cache.clear()
         templates = [
             reverse('posts:index'),
             reverse('posts:profile', kwargs={'username': self.user}),
