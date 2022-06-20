@@ -139,12 +139,15 @@ class PaginatorViewsTest(TestCase):
         cls.authorized_client = Client()
 
     def setUp(self):
-        for post in range(ALL_POST_NUMBER):
-            Post.objects.create(
-                text=f'text{post}',
+        posts = (
+            Post(
+                text='text %s' % i,
                 author=self.user,
                 group=self.group,
             )
+            for i in range(ALL_POST_NUMBER)
+        )
+        Post.objects.bulk_create(posts)
 
     def tearDown(self):
         cache.clear()

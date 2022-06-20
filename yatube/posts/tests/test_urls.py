@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from django.core.cache import cache
 from posts.models import Post, Group
+from http import HTTPStatus
 
 User = get_user_model()
 
@@ -10,7 +11,7 @@ class StaticURLTests(TestCase):
     def test_homepage(self):
         guest_client = Client()
         response = guest_client.get('/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
 
 class PostsURLTests(TestCase):
@@ -39,37 +40,37 @@ class PostsURLTests(TestCase):
         """Страница / доступна любому пользователю."""
         cache.clear()
         response = self.guest_client.get('/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_profile_url_exists_at_desired_location(self):
         """Страница profile/<str:username>/ доступна любому пользователю."""
         response = self.guest_client.get('/profile/author/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_group_exists_at_desired_location(self):
         """Страница group/<slug>/ доступна любому пользователю."""
         response = self.guest_client.get('/group/test_slug/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_post_detail_url_exists_at_desired_location(self):
         """Страница posts/<post_id>/ доступна авторизованному пользователю."""
         response = self.guest_client.get('/posts/1/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_unexisting_page_exists_at_desired_location(self):
         """Несуществующая страница не доступна."""
         response = self.guest_client.get('/wrfrt/')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
     def test_create_url_exists_at_desired_location(self):
         """Страница create/ доступна авторизованному пользователю."""
         response = self.authorized_client.get('/create/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_post_edit_url_exists_at_desired_location_authorized(self):
         """Страница posts/<int:post_id>/edit/ доступна автору."""
         response = self.authorized_client.get('/posts/1/edit/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_urls_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
