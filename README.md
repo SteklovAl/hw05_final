@@ -16,7 +16,7 @@ Python 3.9, Django 2.2.19, pytest 6.2.4
 
 Клонировать репозиторий и перейти в него в командной строке:
 
-`git clone https://github.com/anxeity/hw05_final.git`
+`git clone https://github.com/SteklovAl/hw05_final.git`
 
 Cоздать и активировать виртуальное окружение:
 
